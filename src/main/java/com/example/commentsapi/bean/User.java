@@ -1,4 +1,4 @@
-package com.example.commentsapi.model;
+package com.example.commentsapi.bean;
 
 public class User {
         private long id;
@@ -16,11 +16,11 @@ public class User {
             this.username = username;
         }
 
-        public long getId() {
-            return id;
-        }
+    public long getId() {
+        return id;
+    }
 
-        public void setId(long id) {
+    public void setId(long id) {
             this.id = id;
         }
 

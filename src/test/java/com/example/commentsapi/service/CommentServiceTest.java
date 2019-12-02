@@ -1,24 +1,23 @@
 package com.example.commentsapi.service;
 
 import com.example.commentsapi.exception.EntityNotFoundException;
+import com.example.commentsapi.feignClientService.PostService;
 import com.example.commentsapi.model.Comment;
-import com.example.commentsapi.model.EmailModel;
-import com.example.commentsapi.model.Post;
-import com.example.commentsapi.model.User;
+import com.example.commentsapi.bean.EmailModel;
+import com.example.commentsapi.bean.Post;
+import com.example.commentsapi.bean.User;
 import com.example.commentsapi.mq.Sender;
 import com.example.commentsapi.repository.CommentRepository;
 import com.example.commentsapi.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CommentServiceTest {
 
     @InjectMocks
@@ -49,6 +49,10 @@ public class CommentServiceTest {
     @Mock
     UserRepository userRepository;
 
+//    @Before
+//    public void initMocks() {
+//        MockitoAnnotations.initMocks(this);
+//    }
 
     @Before
     public void initializeDummyData() {
@@ -67,7 +71,8 @@ public class CommentServiceTest {
         when(commentRepository.save(comment)).thenReturn(comment);
         when(postService.getPostByPostId(any())).thenReturn(post);
         when(userRepository.getUserByUsername(any())).thenReturn(user);
-        Mockito.doNothing().when(sender).send(email);
+//        Mockito.doNothing().when(commentService.sendEmailHanlder(comment)).send(comment);
+//        Mockito.doNothing().when(sender).send(email);
         assertEquals(commentService.createComment(1L, "osman", comment), comment);
     }
 
@@ -84,8 +89,4 @@ public class CommentServiceTest {
         assertEquals(commentService.getCommentsByUser(any()), comments);
     }
 
-    @Before
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
-    }
 }
